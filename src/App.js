@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import {connect} from 'react-redux'
+import {Component} from "react";
+import RegisterForm from "./Components/RegisterForm"
+import Exam from './Components/Exam'
+import Score from './Components/Score'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+
+    render() {
+        return (
+            <div className="App">
+                {(!this.props.name) && <RegisterForm />}
+                {(this.props.name && !this.props.isSubmit) && <Exam />}
+                {(this.props.isSubmit) && <Score />}
+            </div>
+        );
+    }
 }
 
-export default App;
+function mapSateToProps(state) {
+    return {
+        name: state.name,
+        isSubmit: state.isSubmit
+    }
+}
+
+// function mapDispatchToProps(dispatch){
+//     return {
+//         login: () => dispatch({type: "login"})
+//     }
+// }
+
+export default connect(mapSateToProps)(App);
